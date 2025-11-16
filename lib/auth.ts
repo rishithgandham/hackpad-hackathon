@@ -6,7 +6,7 @@ import { nextCookies } from "better-auth/next-js";
 
 export const auth = betterAuth({
     
-    trustedOrigins: ["http://localhost:3000", "https://hackpad-hackathon.vercel.app/"],
+    trustedOrigins: ["http://localhost:3000", "https://hackpad-hackathon.vercel.app"],
 
 
     database: drizzleAdapter(db, {
