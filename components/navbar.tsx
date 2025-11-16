@@ -23,7 +23,7 @@ export function Navbar() {
   return (
     <nav className="sticky top-0 z-10 border-border bg-background/90 backdrop-blur">
       <div className="mx-auto flex h-10 max-w-4xl items-center justify-between px-4">
-        <span className="text-lg font-semibold text-foreground">AI Task Organizer</span>
+        <span className="text-lg font-semibold text-foreground">PlanAI</span>
         <div className="flex items-center gap-1">
           <Link
             href="/calendar"

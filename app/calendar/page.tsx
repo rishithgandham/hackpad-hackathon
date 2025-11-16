@@ -197,7 +197,13 @@ export default function CalendarPage() {
 }
 
 function formatDateLabel(dateKey: string): string {
-  const parsed = new Date(dateKey);
+  // parse YYYY-MM-DD safely into a local Date
+  const parts = dateKey.split('-').map(Number);
+  if (parts.length !== 3 || parts.some((n) => Number.isNaN(n))) {
+    return dateKey;
+  }
+  const [y, m, d] = parts;
+  const parsed = new Date(y, m - 1, d);
   if (Number.isNaN(parsed.getTime())) {
     return dateKey;
   }
@@ -230,7 +236,6 @@ function buildCalendarWeeks(
   year: number,
   month: number
 ): Week[] {
-  const today = new Date();
   const firstDay = new Date(year, month, 1);
   const startOfCalendar = new Date(firstDay);
   startOfCalendar.setDate(firstDay.getDate() - firstDay.getDay());
@@ -242,7 +247,8 @@ function buildCalendarWeeks(
     const days: DayCell[] = [];
 
     for (let day = 0; day < 7; day++) {
-      const isoDate = current.toISOString().slice(0, 10);
+      const isoDate = current.toLocaleDateString('en-CA'); // YYYY-MM-DD guaranteed and local
+
       days.push({
         date: isoDate,
         tasks: tasksByDate[isoDate] ?? [],
@@ -267,7 +273,7 @@ function CalendarGrid({
   onTaskClick: (task: CalendarTask) => void;
   onTaskDelete: (taskId: string) => void;
 }) {
-  const todayIso = new Date().toISOString().slice(0, 10);
+  const todayIso = new Date().toLocaleDateString('en-CA');
 
   return (
     <div className="rounded-xl border border-border bg-card shadow-sm">
@@ -282,10 +288,20 @@ function CalendarGrid({
         {weeks.map((week, idx) => (
           <Fragment key={idx}>
             {week.map(({ date, tasks }) => {
+              // date is "YYYY-MM-DD"
               const isToday = date === todayIso;
-              const displayDate = new Date(date).getDate();
-              const dateObj = new Date(date);
-              const isCurrentMonth = dateObj.getMonth() === visibleMonth.month && dateObj.getFullYear() === visibleMonth.year;
+
+              // parse year, month, day safely (local)
+              const [yStr, mStr, dStr] = date.split('-');
+              const y = Number(yStr);
+              const m = Number(mStr); // 1-12
+              const d = Number(dStr);
+
+              // displayDate is the day number (d)
+              const displayDate = d;
+
+              // determine whether the cell belongs to the currently visible month
+              const isCurrentMonth = (m - 1) === visibleMonth.month && y === visibleMonth.year;
 
               return (
                 <div
@@ -303,7 +319,9 @@ function CalendarGrid({
                       {displayDate}
                     </span>
                     {tasks.length > 0 && (
-                      <span className="text-xs text-muted-foreground">{tasks.length} task{tasks.length > 1 ? 's' : ''}</span>
+                      <span className="text-xs text-muted-foreground">
+                        {tasks.length} task{tasks.length > 1 ? 's' : ''}
+                      </span>
                     )}
                   </div>
                   <div className="space-y-2">
@@ -318,7 +336,9 @@ function CalendarGrid({
                           className="w-full text-left"
                         >
                           <p className="text-xs font-semibold">{task.assignmentName || task.raw}</p>
-                          {task.dueTime && <p className="text-[11px] text-muted-foreground">Time: {task.dueTime}</p>}
+                          {task.dueTime && (
+                            <p className="text-[11px] text-muted-foreground">Time: {task.dueTime}</p>
+                          )}
                           {task.typeTag && (
                             <p className="text-[11px] uppercase tracking-wide text-primary">{task.typeTag}</p>
                           )}
@@ -336,9 +356,7 @@ function CalendarGrid({
                       </div>
                     ))}
                     {tasks.length > 3 && (
-                      <p className="text-[11px] text-muted-foreground">
-                        +{tasks.length - 3} more
-                      </p>
+                      <p className="text-[11px] text-muted-foreground">+{tasks.length - 3} more</p>
                     )}
                   </div>
                 </div>
@@ -491,4 +509,3 @@ function EditTaskModal({
     </div>
   );
 }
-
