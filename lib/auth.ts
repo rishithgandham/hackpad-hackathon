@@ -5,6 +5,10 @@ import { verification, account, user, session } from "@/lib/schema";
 import { nextCookies } from "better-auth/next-js";
 
 export const auth = betterAuth({
+    
+    trustedOrigins: ["http://localhost:3000", "https://hackpad-hackathon.vercel.app/"],
+
+
     database: drizzleAdapter(db, {
         provider: "pg", // or "mysql", "sqlite"
         schema: {
