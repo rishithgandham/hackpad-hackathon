@@ -308,8 +308,8 @@ export default function Dashboard() {
       <div className="max-w-4xl mx-auto px-4 py-12">
         {/* Header */}
         <div className="mb-12">
-          <h1 className="text-4xl font-bold text-foreground mb-2">AI Task Organizer</h1>
-          <p className="text-muted-foreground">Enter your tasks and let AI organize them</p>
+          <h1 className="text-4xl font-bold text-foreground mb-2">AI Planner</h1>
+          <p className="text-muted-foreground">Enter any event or task and let AI organize them</p>
         </div>
 
         {/* Large Textbox */}
@@ -344,7 +344,7 @@ export default function Dashboard() {
             type="button"
             onClick={handleAddTask}
             disabled={isPending}
-            className="mt-4 px-6 py-2 bg-primary text-primary-foreground rounded-lg hover:opacity-90 font-medium disabled:opacity-60"
+            className="mt-4 mx-3 px-6 py-2 bg-primary text-primary-foreground rounded-lg hover:opacity-90 font-medium disabled:opacity-60"
           >
             {isPending ? 'Organizing...' : 'Add to Organizer'}
           </button>
@@ -395,7 +395,7 @@ export default function Dashboard() {
                     )}
                   </div>
                   {bucket.items.length === 0 ? (
-                    <p className="text-sm text-muted-foreground">No tasks yet.</p>
+                    <p className="text-sm text-muted-foreground">Nothing here yet.</p>
                   ) : (
                     <ul className="space-y-3">
                       {bucket.items.map((item) => (

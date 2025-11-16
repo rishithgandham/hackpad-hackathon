@@ -120,7 +120,7 @@ export default function CalendarPage() {
         <div className="mb-8 flex items-center justify-between gap-4">
           <div>
             <h1 className="text-4xl font-bold text-foreground">Calendar View</h1>
-            <p className="text-muted-foreground">All tasks grouped by due date</p>
+            <p className="text-muted-foreground">All items grouped by due date</p>
           </div>
           <div className="flex items-center gap-3">
             <button
