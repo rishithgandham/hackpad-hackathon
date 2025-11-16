@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1763233796965,
+      "tag": "0000_third_jocasta",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1763234967129,
+      "tag": "0001_violet_gauntlet",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1763241203843,
+      "tag": "0002_flowery_iron_fist",
+      "breakpoints": true
+    }
+  ]
+}
